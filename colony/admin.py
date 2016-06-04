@@ -97,7 +97,7 @@ class CageAdmin(nested_inline.admin.NestedModelAdmin):
     
     list_filter = ('proprietor__name', DefunctFilter,)
     
-    ordering = ('defunct', 'proprietor', 'name',)
+    ordering = ('defunct', 'name',)
     readonly_fields = ('infos', 'needs', 'need_date',)
     inlines = [LitterInline]
 
