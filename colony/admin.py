@@ -123,11 +123,15 @@ class MouseAdmin(admin.ModelAdmin):
     
     # This controls the columns that show up on the Admin page for Mouse
     list_display = ('name', 'user', 'dob', 'age', 'sacked', 'sex', 'cage', 
-        'breeder', 'genotype', 'litter', 'notes')
+        'breeder', 'genotype', 'notes')
     list_editable = ('notes',)
     readonly_fields = ('info', 'age', 'dob', 'mother', 'father', 'sacked',)
     #~ list_display_links = ('name', 'litter', 'cage')
-    list_filter = ['genotype__name', 'breeder', SackFilter]
+    list_filter = ['cage__proprietor', 'breeder', SackFilter, 
+        'genotype__name', ]
+    
+    # How it is sorted by default
+    ordering = ('name',)
     
     # This controls what you see on the individual mouse page
     # Would be better to break this up into sections
