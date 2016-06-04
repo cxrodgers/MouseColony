@@ -12,7 +12,7 @@ class MouseInline(nested_inline.admin.NestedTabularInline):
     
     # Exclude the stuff that isn't normally specified when adding pups
     exclude = ('manual_dob', 'manual_mother', 'manual_father', 
-        'cage', 'sack_date', 'user', 'breeder')
+        'sack_date', 'user', 'breeder')
     show_change_link = True    
     
     # How can we make "notes" the right-most field?
