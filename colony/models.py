@@ -92,6 +92,44 @@ class Cage(models.Model):
     
     def need_date(self):
         return self.litter.need_date
+    
+    @property
+    def contains_mother_of_this_litter(self):
+        """Returns True if the mother of this cage's litter is still present.
+        
+        This is True while she is raising the litter but becomes False
+        after the pups are weaned (which technically means the mother was
+        moved to a new cage).
+        
+        This is used to test whether we should display info about the
+        "litter" in various views. Typically we don't really care about
+        it as a "litter" after weaning, at least for the purposes of
+        determining what the litter needs.
+        """
+        # Return False if litter doesn't exist
+        try:
+            self.litter
+        except Litter.DoesNotExist:
+            return False
+        
+        if self.litter:
+            if self.litter.mother:
+                if self.litter.mother.cage:
+                    if self.litter.mother.cage == self:
+                        # The mother exists and is still here
+                        return True
+                    else:
+                        # The mother exists but is in another cage
+                        return False
+                else:
+                    # No cage set for the mother
+                    return False
+            else:
+                # no mother set, probably not possible
+                return False
+        else:
+            # litter is None, this is probably impossible
+            return False
 
 class Genotype(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -223,7 +261,10 @@ class Mouse(models.Model):
     
     @property
     def still_in_breeding_cage(self):
-        """Returns true if still in the cage it was bred in"""
+        """Returns true if still in the cage it was bred in
+        
+        This is used to prepend "pup" to the infos.
+        """
         if self.litter:
             return self.cage == self.litter.breeding_cage
         else:

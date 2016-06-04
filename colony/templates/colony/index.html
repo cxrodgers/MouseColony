@@ -19,6 +19,7 @@ td
     <tr>
         <th>cage</th>
         <th>prop.</th>
+        <th>litter</th>
         <th>mouse</th>
         <th>sex</th>
         <th>genotype</th>
@@ -35,15 +36,23 @@ td
             {% if not cage.mouse_set.all %}
                 <td> {{ cage.name }} </td>
                 <td>{{ cage.proprietor }} </td>
+                <td>{{ cage.litter }} </td>
                 <td>EMPTY</td>
             {% endif %}
             
             {# loop over mice in the cage, with a border above the first one #}
             {% for mouse in cage.mouse_set.all %}
             <tr {% if forloop.counter0 == 0%} style="border-top: thin solid" {% endif %}>
-                {# only print name and proprietor for first one #}
+                {# only print name and proprietor and litter for first one #}
                 <td> {% if forloop.counter0 == 0 %} {{ cage.name }} {% endif %} </td>
                 <td> {% if forloop.counter0 == 0 %} {{ cage.proprietor }} {% endif %} </td>
+                <td> {# display litter name if mother is still in cage #}
+                    {% if forloop.counter0 == 0 %} 
+                        {% if cage.contains_mother_of_this_litter %} 
+                            {{ cage.litter }} 
+                        {% endif %} 
+                    {% endif %} 
+                </td>
 
                 {# Colorize the mouse name for breeding mothers and fathers #}
                 {% if mouse.can_be_breeding_mother %}
