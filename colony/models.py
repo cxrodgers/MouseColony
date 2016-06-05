@@ -49,6 +49,39 @@ class Cage(models.Model):
     # Needs to be made mandatory
     proprietor = models.ForeignKey('Person')
 
+    def notes_first_half(self, okay_line_length=25):
+        """Return the first half of the notes. For CensusView display"""
+        s = str(self.notes)
+        if len(s) < okay_line_length or ' ' not in s:
+            return s
+        
+        # Find all spaces
+        spi = [i for i, letter in enumerate(s) if letter == ' ']
+        dist_from_center = [abs(spii - len(s) / 2) for spii in spi]
+
+        # Find the space closest to the middle of the string
+        best_space_idx, min_dist_from_center = min(enumerate(
+            dist_from_center), key=lambda x:x[1])
+        split_idx = spi[best_space_idx]
+        
+        return s[:split_idx]
+    
+    def notes_second_half(self, okay_line_length=25):
+        s = str(self.notes)
+        if len(s) < okay_line_length or ' ' not in s:
+            return ''
+        
+        # Find all spaces
+        spi = [i for i, letter in enumerate(s) if letter == ' ']
+        dist_from_center = [abs(spii - len(s) / 2) for spii in spi]
+
+        # Find the space closest to the middle of the string
+        best_space_idx, min_dist_from_center = min(enumerate(
+            dist_from_center), key=lambda x:x[1])
+        split_idx = spi[best_space_idx]
+        
+        return s[split_idx:]
+
     def n_mice(self):
         return len(self.mouse_set.all())
     

@@ -77,10 +77,12 @@ td
                 {% if forloop.counter0 == 0 %}
                     <td rowspan="3"</td>
                     {% if cage.needs %}
-                        Needs {{ cage.needs }} on {{ cage.need_date|date:"m-d" }}
+                        Needs {{ cage.needs }} on {{ cage.need_date|date:"m-d" }}.
                         <br>
                     {% endif %}
-                    {{ cage.notes }}
+                    {{ cage.notes_first_half }}
+                    <br>
+                    {{ cage.notes_second_half }}
                 {% elif forlooop.counter0 >= 3 %}
                     <td />
                 {% endif %}
