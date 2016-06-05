@@ -105,6 +105,9 @@ class Cage(models.Model):
         "litter" in various views. Typically we don't really care about
         it as a "litter" after weaning, at least for the purposes of
         determining what the litter needs.
+        
+        Actually, a simpler way would just be to test if the litter
+        has a wean date.
         """
         # Return False if litter doesn't exist
         try:
@@ -427,6 +430,11 @@ class Litter(models.Model):
         """Date of next thing this litter needs"""
         self.update_needs()
         return self.cached_need_date
+
+    @property
+    def target_genotype(self):
+        """Returns string: the father's genotype x the mother's."""
+        return str(self.father.genotype) + ' x ' + str(self.mother.genotype)
 
     def update_needs(self):
         """Automatically determine next needed action and date.

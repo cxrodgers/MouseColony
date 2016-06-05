@@ -20,6 +20,7 @@ td
         <th>cage</th>
         <th>prop.</th>
         <th>litter</th>
+        <th>target</th>
         <th>mouse</th>
         <th>sex</th>
         <th>genotype</th>
@@ -37,6 +38,7 @@ td
                 <td> {{ cage.name }} </td>
                 <td>{{ cage.proprietor }} </td>
                 <td>{{ cage.litter }} </td>
+                <td>{{ cage.litter.target_genotype }} </td>
                 <td>EMPTY</td>
             {% endif %}
             
@@ -49,7 +51,15 @@ td
                 <td> {# display litter name if mother is still in cage #}
                     {% if forloop.counter0 == 0 %} 
                         {% if cage.contains_mother_of_this_litter %} 
-                            {{ cage.litter }} 
+                            {{ cage.litter }}
+                        {% endif %} 
+                    {% endif %} 
+                </td>
+
+                <td> {# display litter target genotype if mother is still in cage #}
+                    {% if forloop.counter0 == 0 %} 
+                        {% if cage.contains_mother_of_this_litter %} 
+                            {{ cage.litter.target_genotype }}
                         {% endif %} 
                     {% endif %} 
                 </td>
