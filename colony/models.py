@@ -93,6 +93,11 @@ class Cage(models.Model):
     def need_date(self):
         return self.litter.need_date
     
+    def target_genotype(self):
+        """If contains a non-weaned Litter, return target genotype of it"""
+        if self.litter and not self.litter.date_weaned:
+            return self.litter.target_genotype
+    
     @property
     def contains_mother_of_this_litter(self):
         """Returns True if the mother of this cage's litter is still present.

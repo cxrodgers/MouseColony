@@ -91,14 +91,17 @@ class DefunctFilter(admin.SimpleListFilter):
         return value
 
 class CageAdmin(nested_inline.admin.NestedModelAdmin):
-    def get_target_genotype(self, obj):
-        """Helper function to traverse litter to get target genotype"""
-        return obj.litter.target_genotype
-    get_target_genotype.admin_order_field = 'target_genotype'
-    get_target_genotype.short_description = 'Target'
+    # This is an example of how to put a traversal in the table
+    # Can add 'get_target_genotype' to list_display
+    # But I implemented it as a method on Cage instead
+    #~ def get_target_genotype(self, obj):
+        #~ """Helper function to traverse litter to get target genotype"""
+        #~ return obj.litter.target_genotype
+    #~ get_target_genotype.admin_order_field = 'target_genotype'
+    #~ get_target_genotype.short_description = 'Target'
     
     list_display = ('name', 'proprietor', 'litter', 
-        'get_target_genotype', 'infos', 
+        'target_genotype', 'infos', 
         'needs', 'need_date', 'defunct', 'notes',)
     list_editable = ('notes', )
     

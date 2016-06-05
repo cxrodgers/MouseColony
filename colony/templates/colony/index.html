@@ -57,10 +57,8 @@ td
                 </td>
 
                 <td> {# display litter target genotype if mother is still in cage #}
-                    {% if forloop.counter0 == 0 %} 
-                        {% if cage.contains_mother_of_this_litter %} 
-                            {{ cage.litter.target_genotype }}
-                        {% endif %} 
+                    {% if forloop.counter0 == 0 and cage.target_genotype %}
+                        {{ cage.target_genotype }}
                     {% endif %} 
                 </td>
 
