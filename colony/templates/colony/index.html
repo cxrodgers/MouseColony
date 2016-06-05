@@ -35,22 +35,26 @@ td
             <tr {% if forloop.counter0 == 0%} style="border-top: thin solid" {% endif %}>
                 {# The first column is Cage Detail, and it has a certain #}
                 {# number of lines of info regardless of the number of mice #}
-                <td> 
-                    {# First line: cage name and proprietor #}
-                    {% if forloop.counter0 == 0 %} 
-                        <b>{{ cage.name }}</b> [{{cage.proprietor }}]
-                    {% endif %} 
-                    
-                    {# Second line: litter info, if any #}
-                    {% if forloop.counter0 == 1 and cage.litter and not cage.litter.date_weaned %} 
-                        Litter {{ cage.litter }} 
-                    {% endif %}   
-                    
-                    {# Third line: target genotype, if any #}
-                    {% if forloop.counter0 == 2 and cage.target_genotype %}
-                        {{ cage.target_genotype }} 
-                    {% endif %}                       
-                </td>
+                {% if forloop.counter0 == 0 %}
+                    <td rowspan="3"> 
+                        {# First line: cage name and proprietor #}
+                            <b>{{ cage.name }}</b> [{{cage.proprietor }}]
+                        <br>
+                        {# Second line: litter info, if any #}
+                        {% if cage.litter and not cage.litter.date_weaned %} 
+                            Litter {{ cage.litter }} 
+                        {% endif %}   
+                        <br>
+                        {# Third line: target genotype, if any #}
+                        {% if cage.target_genotype %}
+                            {{ cage.target_genotype }} 
+                        {% endif %}                       
+                    </td>
+                {% endif %}
+                {# Insert empty details for additional rows #}
+                {% if forloop.counter0 >= 3 %}
+                    <td />
+                {% endif %}
                 
                 {# These columns are specific to each mouse #}
                 {# Colorize the mouse name for breeding mothers and fathers #}
@@ -89,40 +93,18 @@ td
 
             {# This is kind of a hack: #}
             {# If there are fewer mice in the cage than there are lines #}
-            {# of cage detail in the first column, then add them here #}
+            {# of cage detail in the first column, then add empty rows here #}
             {# because the mouse_set iteration will have finished too soon. #}
-            {# This is just copied out from the above loop. #}
-            {# First line: cage name and proprietor #}
+            {# Then we always have 3 rows of 8 columns #}
             {% if cage.n_mice == 0 %}
-                <tr>
-                    <td>
-                        <b>{{ cage.name }}</b> [{{cage.proprietor }}]
-                    </td>
-                </tr>
+                <tr><td /><td /><td /><td /><td /><td /><td /></tr>
             {% endif %} 
-
-            {# Second line: litter info #}
             {% if cage.n_mice <= 1 %}
-                <tr>
-                    <td>
-                        {% if cage.litter and not cage.litter.date_weaned %} 
-                            Litter {{ cage.litter }} 
-                        {% endif %}               
-                    </td>
-                </tr>
-            {% endif %}
-            
-            {# Third line: target genotype #}
+                <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+            {% endif %} 
             {% if cage.n_mice <= 2 %}
-                <tr>
-                    <td>
-                        {% if cage.target_genotype %}
-                            {{ cage.target_genotype }} 
-                        {% endif %}                   
-                    </td>
-                </tr>            
-            {% endif %}
-
+                <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+            {% endif %} 
 
         {% endif %} {# if not cage.defunct #}
     {% endfor %} {# for cage in object.list #}
