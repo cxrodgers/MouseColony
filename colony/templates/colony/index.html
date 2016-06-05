@@ -57,9 +57,9 @@ td
                 
                 {# These columns are specific to each mouse #}
                 {# Colorize the mouse name for breeding mothers and fathers #}
-                {% if mouse.can_be_breeding_mother %}
+                {% if mouse.can_be_breeding_mother or cage.litter.mother == mouse %}
                     <td><font color='red'>{{ mouse.name }}</font></td>
-                {% elif mouse.can_be_breeding_father %}
+                {% elif mouse.can_be_breeding_father or cage.litter.father == father %}
                     <td><font color='blue'>{{ mouse.name }}</font></td>
                 {% elif mouse.still_in_breeding_cage %}
                     <td>{{ mouse.name }}</td>
