@@ -26,8 +26,7 @@ class LitterInline(nested_inline.admin.NestedStackedInline):
 
 class LitterAdmin(admin.ModelAdmin):
     list_display = ('breeding_cage', 'proprietor', 'date_mated', 'age', 
-        'date_toeclipped', 'date_weaned',
-        'date_checked',  'needs', 'need_date', 'notes',)
+        'father', 'mother', 'notes',)
     inlines = [MouseInline] 
     list_editable = ('notes', 'date_checked')
     list_filter = ('proprietor__name',)
