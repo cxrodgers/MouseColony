@@ -481,7 +481,7 @@ class Litter(models.Model):
         
         Here is the order of things to check:
         2. No DOB: check for pups
-        3. Litter >P21 and no wean: wean immediately
+        3. Litter >P18 and no wean: wean by P21
         4. Litter >P7 and no toe clip: toe clip immediately
         5. Not toe clipped: toe clip in future
         6. Not weaned: wean in future
@@ -506,8 +506,8 @@ class Litter(models.Model):
             self.cached_needs = "pup check" # day %d" % gestation_period            
             return
         
-        if self.age() >= 21 and not self.date_weaned:
-            # Needs wean immediately
+        if self.age() >= 18 and not self.date_weaned:
+            # Needs wean by P21
             self.cached_need_date = self.dob + datetime.timedelta(days=21)
             self.cached_needs = "wean"
             return
