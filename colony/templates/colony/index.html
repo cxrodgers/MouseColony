@@ -56,16 +56,20 @@ td
                 {% endif %}
                 
                 {# These columns are specific to each mouse #}
-                {# Colorize the mouse name for breeding mothers and fathers #}
+                
+                {# mouse's name #}
+                <td>
+                {# Colorize the mouse name for breeding mothers and fathers #}                
                 {% if mouse.can_be_breeding_mother or cage.litter.mother == mouse %}
-                    <td><font color='red'>{{ mouse.name }}</font></td>
+                    <font color='red'>
                 {% elif mouse.can_be_breeding_father or cage.litter.father == father %}
-                    <td><font color='blue'>{{ mouse.name }}</font></td>
-                {% elif mouse.still_in_breeding_cage %}
-                    <td>{{ mouse.name }}</td>
+                    <font color='blue'>
                 {% else %}
-                    <td>{{ mouse.name }}</td>
+                    <font>
                 {% endif %}
+                {{ mouse.name }}
+                {% if mouse.user %}[{{ mouse.user }}]{% endif %}
+                </font></td>
                 
                 {# print sex, genotype, dob #}
                 <td>{{ mouse.get_sex_display }}</td>
