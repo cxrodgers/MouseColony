@@ -25,26 +25,13 @@ class LitterInline(nested_inline.admin.NestedStackedInline):
     inlines = [MouseInline]
 
 class LitterAdmin(admin.ModelAdmin):
-    list_display = ('breeding_cage', 'proprietor', 'date_mated', 'age', 
-        'father', 'mother', 'notes',)
+    list_display = ('breeding_cage', 'proprietor', 'info', 'target_genotype',
+        'date_mated', 'age', 'father', 'mother', 'notes',)
     inlines = [MouseInline] 
     list_editable = ('notes', 'date_checked')
     list_filter = ('proprietor__name',)
-    readonly_fields = ('needs', 'need_date')
-
-    def get_queryset(self, request):
-        """Override the ordering to put future litters at the top"""
-        qs = super(LitterAdmin, self).get_queryset(request)
-        
-        # Put the ones with no DOB first
-        # Then the ones with no date of weaning
-        # And for everyone else, sort in reverse chronological
-        return qs.\
-            annotate(dob_is_null=Count('dob')).\
-            annotate(dwe_is_null=Count('date_weaned')).\
-            order_by('dob_is_null', 'dwe_is_null', '-dob')
-            
-    ordering = ('proprietor',)
+    readonly_fields = ('target_genotype', 'info',)
+    ordering = ('breeding_cage__name', )
 
 class DefunctFilter(admin.SimpleListFilter):
     """By default, filter by defunct=False

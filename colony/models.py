@@ -445,6 +445,11 @@ class Litter(models.Model):
         return (today - self.dob).days
 
     def __str__(self):
+        return self.info
+    
+    @property
+    def info(self):
+        """Returns a string like 3000: 10@P19"""
         bc_name = self.breeding_cage.name
         n_pups = len(self.mouse_set.all())
         pup_age = self.age()
