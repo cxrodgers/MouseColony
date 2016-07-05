@@ -496,6 +496,12 @@ class Litter(models.Model):
         self.cached_need_date = None
         
         if not self.dob:
+            # Guard against no date_mated
+            if not self.date_mated:
+                self.cached_needs = "date mated"
+                self.cached_need_date = datetime.date.today()
+                return
+
             # Not born yet, need to check for pups
             self.cached_need_date = self.date_mated + \
                 datetime.timedelta(days=25)
